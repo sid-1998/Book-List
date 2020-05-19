@@ -1,12 +1,14 @@
+//Book constructor
 function Book(title, author, isbn){
     this.title = title;
     this.author = author;
     this.isbn = isbn;
 }
 
-
+//UI constructor
 function UI() {}
 
+//UI prototype
 UI.prototype.addBook = function(book){
     const list = document.getElementById('book-list');
     const row = document.createElement('tr');
@@ -24,15 +26,45 @@ UI.prototype.clearValues = function(){
     document.getElementById('author').value = "";
     document.getElementById('isbn').value = "";
 }
+
+UI.prototype.showAlert = function(message, className){
+    const div = document.createElement('div');
+    div.className = `alert alert-${className}`;
+
+    div.appendChild(document.createTextNode(message));
+
+    // get parent
+    const card = document.querySelector('.card');
+    //get child
+    const form = document.querySelector('#book-form');
+
+    card.insertBefore(div, form);
+    setTimeout(function(){
+        document.querySelector('.alert').remove()
+    }, 3000)
+}
+//Event Listners
 document.getElementById('book-form').addEventListener('submit', function(e){
     const title = document.getElementById('title').value,
           author = document.getElementById('author').value,
           isbn = document.getElementById('isbn').value;
 
-    book = new Book(title, author, isbn);
-    
+    const book = new Book(title, author, isbn);
     const ui = new UI();
-    ui.addBook(book);
-    ui.clearValues();
+
+    //Validation
+    if(title === '' || author === '' || isbn === ''){
+        ui.showAlert('Please enter valid inputs', 'danger')
+    }
+    else{
+        //add a book
+        ui.addBook(book);
+        //clear input fields after submitting
+        ui.clearValues();
+    }
+
+
+
+
     e.preventDefault();
 })
