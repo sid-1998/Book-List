@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Book List</title>
+</head>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto mt-5">
+                <div class="card card-body ">
+                    <h4>Add a Book</h4>
+                    <form id="book-form">
+                        <div class="form-group row">
+                            <label for="title" class="col-sm-2 col-form-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="title" id="title" class="form-control form-control-sm ">
+                            </div>
+
+                            <label for="author" class="col-sm-2 col-form-label">Author</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="author" id="author" class="form-control form-control-sm">
+                            </div>
+
+                            <label for="isbn" class="col-sm-2 col-form-label">ISBN#</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="isbn" id="isbn" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-primary btn-block mb-3">
+                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>ISBN#</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="book-list"></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
