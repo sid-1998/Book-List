@@ -9,6 +9,8 @@ function Book(title, author, isbn){
 function UI() {}
 
 //UI prototype
+
+//adding a book
 UI.prototype.addBook = function(book){
     const list = document.getElementById('book-list');
     const row = document.createElement('tr');
@@ -17,16 +19,17 @@ UI.prototype.addBook = function(book){
     <td>${book.author}</td>
     <td>${book.isbn}</td>
     <td><a href="#" class="delete">X</a></td>
-    `
+    `;
     list.appendChild(row);
 }
 
+// clearing values after submition
 UI.prototype.clearValues = function(){
     document.getElementById('title').value = "";
     document.getElementById('author').value = "";
     document.getElementById('isbn').value = "";
 }
-
+//showing alert
 UI.prototype.showAlert = function(message, className){
     const div = document.createElement('div');
     div.className = `alert alert-${className}`;
@@ -43,6 +46,16 @@ UI.prototype.showAlert = function(message, className){
         document.querySelector('.alert').remove()
     }, 3000)
 }
+//deleting a book
+UI.prototype.deleteBook = function(target){
+    console.log("I am here")
+    if(target.className === 'delete'){
+        target.parentElement.parentElement.remove();
+    }
+}
+
+
+
 //Event Listners
 document.getElementById('book-form').addEventListener('submit', function(e){
     const title = document.getElementById('title').value,
@@ -59,12 +72,18 @@ document.getElementById('book-form').addEventListener('submit', function(e){
     else{
         //add a book
         ui.addBook(book);
+        //show success alert
+        ui.showAlert("Book Added!!", 'success')
         //clear input fields after submitting
         ui.clearValues();
     }
-
-
-
-
     e.preventDefault();
 })
+
+document.getElementById('book-list').addEventListener('click', function(e){
+    const ui = new UI();
+    ui.deleteBook(e.target);
+    ui.showAlert("Book deleted!", "success")
+    e.preventDefault();
+});
+
