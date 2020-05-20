@@ -50,8 +50,46 @@ class UI{
 
     }
 }
-
+class Store{
+     static getBooks(){
+        let books;
+        if(localStorage.getItem('books') === null){
+            books = [];
+        }
+        else{
+            books = JSON.parse(localStorage.getItem('books'));
+        }
+        return books;
+    }
+    static addBook(book){
+        const books = Store.getBooks();
+        books.push(book);
+        localStorage.setItem('books', JSON.stringify(books));
+    }
+    static removeBook(isbn){
+        console.log(isbn)
+        const books = this.getBooks();
+        books.forEach(function(book, index){
+            if(book.isbn === isbn){
+                books.splice(index, 1);
+            }
+        })
+        localStorage.setItem('books', JSON.stringify(books))
+    }
+    static displayBooks(){
+        const books = Store.getBooks();
+        const ui = new UI();
+        books.forEach(function(book){
+            ui.addBook(book);
+        })
+    }
+}
 //Event Listners
+
+//displaying books stored in LS
+document.addEventListener('DOMContentLoaded', Store.displayBooks);
+
+//adding book after form submittion
 document.getElementById('book-form').addEventListener('submit',
 function(e){
     const title = document.getElementById('title').value,
@@ -65,17 +103,26 @@ function(e){
         ui.showAlert('Please check your inputs', 'danger');
     }
     else{
+        // add book in UI
         ui.addBook(book);
+        // add book in LS
+        Store.addBook(book);
+        //show alert
         ui.showAlert('Book Added!', 'success');
+        //clear input fields after successful entry
         ui.clearValues();
     }
     e.preventDefault();
 });
 
+//remove book
 document.getElementById('book-list').addEventListener('click',
 function(e){
     const ui = new UI();
+    //delete book from UI
     ui.deleteBook(e.target);
+    //delete from LS
+    Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
     ui.showAlert('Book Deleted', 'success');
     e.preventDefault();
 });
